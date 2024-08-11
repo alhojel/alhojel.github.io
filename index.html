@@ -77,6 +77,51 @@
           <table width="100%" align="center" border="0" cellpadding="20">
             <tbody>
 
+              <tr onmouseout="taskvec_stop()" onmouseover="taskvec_start()"  bgcolor="#ffffd0">
+                <td style="padding:20px;width:25%;vertical-align:middle">
+                  <div class="one">
+                    <div class="two" id='taskvec_image'><img src='images/taskvec_end.png' width="160"></div>
+                    <img src='images/taskvec_start.png' width="160">
+                  </div>
+                  <script type="text/javascript">
+                    function taskvec_start() {
+                      document.getElementById('taskvec_image').style.opacity = "1";
+                    }
+
+                    function adversarial_stop() {
+                      document.getElementById('taskvec_image').style.opacity = "0";
+                    }
+                    taskvec_stop()
+                  </script>
+                </td>
+                <td style="padding:20px;width:75%;vertical-align:middle">
+                  <a href="https://arxiv.org/abs/2404.05729">
+                    <papertitle>Finding Visual Task Vectors
+                    </papertitle>
+                  </a>
+                  <br>
+                  <strong>Alberto Hojel</strong>, 
+
+                  <a href="https://yutongbai.com/">Yutong Bai</a>,
+                  <a href="https://people.eecs.berkeley.edu/~trevor/">Trevor Darrell</a>,
+                  <a href="http://www.cs.tau.ac.il/~gamir/">Amir Globerson</a>,
+                  <a href="https://amirbar.net/">Amir Bar</a>,
+                  <br>
+                  <em>ECCV 2024 and Mechanistic Interpretability Workshop ICML 2024</em>
+                  <br>
+                  <a href="https://arxiv.org/abs/2404.05729#">arxiv preprint</a>
+                  /
+                  <a href="https://openreview.net/forum?id=XZ6dLwEZtq">ICML Mech Interp Workshop</a>
+                  /
+                  <a href="https://github.com/alhojel/visual_task_vectors">Github</a>
+                  <p></p>
+                  <p>
+                  We explore the activations of different attention heads in a visual prompting model, MAEVQGAN, and consequently leverage learned representations of tasks to guide the behaviour of the model ultimately improving performance and speed. To do this, we utilize the REIFNORCE algorithm to find optimal patching positions where we clamp the output of particular heads to their mean activations when prompted with the intended task. 
+                  </p>
+                </td>
+              </tr>
+              
+
               <tr onmouseout="adversarial_stop()" onmouseover="adversarial_start()"  bgcolor="#ffffd0">
                 <td style="padding:20px;width:25%;vertical-align:middle">
                   <div class="one">
