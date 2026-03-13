@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AH Comms Channel</title>
+  <style>
+    :root { --bg:#0b1020; --card:#141a2f; --text:#e9edff; --muted:#aab3d8; --accent:#7aa2ff; --danger:#ff7b7b; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: Inter, system-ui, -apple-system, sans-serif; background:var(--bg); color:var(--text); }
+    .wrap { max-width:1100px; margin:0 auto; padding:20px; }
+    .gate, .app { background:var(--card); border:1px solid #273055; border-radius:14px; padding:20px; }
+    .hidden { display:none; }
+    input, button, textarea { border-radius:10px; border:1px solid #34406b; background:#0f1630; color:var(--text); padding:10px 12px; }
+    button { cursor:pointer; }
+    .btn { background:var(--accent); color:#0c142b; font-weight:700; border:none; }
+    .btn.secondary { background:#26345f; color:var(--text); }
+    .btn.danger { background:var(--danger); color:#240b0b; }
+    .top { display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; margin-bottom:14px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:12px; }
+    .card { background:#0f1630; border:1px solid #2b355b; border-radius:12px; overflow:hidden; }
+    .card .meta { padding:10px; font-size:13px; color:var(--muted); }
+    video, img { width:100%; display:block; background:#000; }
+    .actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+    .pill { padding:4px 8px; border-radius:999px; font-size:11px; background:#202b4f; color:#c9d2ff; display:inline-block; }
+    a { color:#9db8ff; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="gate" class="gate">
+      <h2>Private Comms Channel</h2>
+      <p>Enter access code to continue.</p>
+      <div style="display:flex;gap:10px;max-width:360px;">
+        <input id="pin" type="password" placeholder="4-digit code" inputmode="numeric" />
+        <button class="btn" onclick="unlock()">Open</button>
+      </div>
+      <p id="gateMsg" style="color:#ff9f9f"></p>
+      <p style="color:var(--muted);font-size:12px">Note: this is a lightweight gate for convenience, not strong security.</p>
+    </div>
+
+    <div id="app" class="app hidden">
+      <div class="top">
+        <div>
+          <h2 style="margin:0">AH Multimedia Inbox</h2>
+          <div style="color:var(--muted);font-size:13px">Dismiss items, add comments, and send notifications.</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <span class="pill" id="count"></span>
+          <button class="btn secondary" onclick="resetDismissed()">Restore dismissed</button>
+        </div>
+      </div>
+
+      <div class="grid" id="grid"></div>
+    </div>
+  </div>
+
+<script>
+const ACCESS_CODE = '7274';
+const KEY = 'ah_comms_dismissed_v1';
+const dismissed = new Set(JSON.parse(localStorage.getItem(KEY) || '[]'));
+
+const items = [
+  { id:'zipnerf-teaser', kind:'video', title:'ZipNeRF teaser', path:'./zipnerf/img/teaser.mp4', note:'Top Twitter candidate' },
+  { id:'lego-sbs', kind:'video', title:'Lego side-by-side', path:'./mipnerf/img/lego_sbs_path1.mp4', note:'Before/after style' },
+  { id:'ship-sbs', kind:'video', title:'Ship side-by-side', path:'./mipnerf/img/ship_sbs_path1.mp4', note:'Alt before/after' },
+  { id:'gardenvase', kind:'video', title:'Gardenvase loop', path:'./mipnerf360/img/gardenvase.mp4', note:'Watchable loop demo' },
+  { id:'vitrica-end', kind:'video', title:'Vitrica clip', path:'./images/vitrica_end.mp4', note:'Product energy' },
+  { id:'taskvec', kind:'image', title:'Task vectors still', path:'./images/taskvec_end.png', note:'Static technical visual' },
+  { id:'blackprint', kind:'image', title:'Blackprint gif', path:'./images/blackprint_end.gif', note:'Quick glance loop' },
+];
+
+function unlock() {
+  const pin = document.getElementById('pin').value.trim();
+  if (pin !== ACCESS_CODE) {
+    document.getElementById('gateMsg').textContent = 'Wrong code.';
+    return;
+  }
+  document.getElementById('gate').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  render();
+}
+
+function persist() { localStorage.setItem(KEY, JSON.stringify([...dismissed])); }
+
+function dismiss(id) { dismissed.add(id); persist(); render(); }
+function resetDismissed() { dismissed.clear(); persist(); render(); }
+
+function notifyComment(item) {
+  const text = prompt(`Comment for: ${item.title}`);
+  if (!text) return;
+  const subject = encodeURIComponent(`[AH Comms] ${item.title}`);
+  const body = encodeURIComponent(`Item: ${item.title}\nPath: ${item.path}\n\nComment:\n${text}`);
+  window.location.href = `mailto:alhojel@gmail.com?subject=${subject}&body=${body}`;
+}
+
+function cardHTML(item) {
+  const media = item.kind === 'video'
+    ? `<video src="${item.path}" controls muted loop playsinline preload="metadata"></video>`
+    : `<img src="${item.path}" alt="${item.title}" loading="lazy"/>`;
+
+  return `
+  <div class="card">
+    ${media}
+    <div class="meta">
+      <div style="font-weight:700;color:#eef2ff">${item.title}</div>
+      <div>${item.note}</div>
+      <div style="font-size:11px;margin-top:6px;word-break:break-all">${item.path}</div>
+      <div class="actions">
+        <button class="btn danger" onclick="dismiss('${item.id}')">Dismiss</button>
+        <button class="btn secondary" onclick='notifyComment(${JSON.stringify(item)})'>Add comment</button>
+        <a href="${item.path}" target="_blank"><button class="btn secondary">Open file</button></a>
+      </div>
+    </div>
+  </div>`;
+}
+
+function render() {
+  const live = items.filter(i => !dismissed.has(i.id));
+  document.getElementById('count').textContent = `${live.length} active items`;
+  document.getElementById('grid').innerHTML = live.map(cardHTML).join('');
+}
+</script>
+</body>
+</html>
