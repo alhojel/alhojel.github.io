@@ -17,6 +17,8 @@
     .btn.secondary { background:#26345f; color:var(--text); }
     .btn.danger { background:var(--danger); color:#240b0b; }
     .top { display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; margin-bottom:14px; }
+    .composer { margin:12px 0 16px; background:#0f1630; border:1px solid #2b355b; border-radius:12px; padding:12px; }
+    .composer textarea { width:100%; min-height:170px; resize:vertical; }
     .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:12px; }
     .card { background:#0f1630; border:1px solid #2b355b; border-radius:12px; overflow:hidden; }
     .card .meta { padding:10px; font-size:13px; color:var(--muted); }
@@ -43,12 +45,23 @@
       <div class="top">
         <div>
           <h2 style="margin:0">AH Multimedia Inbox</h2>
-          <div style="color:var(--muted);font-size:13px">Dismiss items, add comments, and send notifications.</div>
+          <div style="color:var(--muted);font-size:13px">Dismiss items, add comments, and copy/paste notes to WhatsApp.</div>
         </div>
         <div style="display:flex;gap:8px;align-items:center;">
           <span class="pill" id="count"></span>
           <button class="btn secondary" onclick="resetDismissed()">Restore dismissed</button>
         </div>
+      </div>
+
+      <div class="composer">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+          <strong>Message box (copy/paste rail)</strong>
+          <div style="display:flex;gap:8px;">
+            <button class="btn secondary" onclick="copyBox()">Copy box</button>
+            <button class="btn secondary" onclick="clearBox()">Clear</button>
+          </div>
+        </div>
+        <textarea id="messageBox" placeholder="Comments and graph requests will appear here. Add your notes, then copy/paste to WhatsApp."></textarea>
       </div>
 
       <div class="grid" id="grid"></div>
@@ -61,13 +74,10 @@ const KEY = 'ah_comms_dismissed_v1';
 const dismissed = new Set(JSON.parse(localStorage.getItem(KEY) || '[]'));
 
 const items = [
-  { id:'zipnerf-teaser', kind:'video', title:'ZipNeRF teaser', path:'./zipnerf/img/teaser.mp4', note:'Top Twitter candidate' },
-  { id:'lego-sbs', kind:'video', title:'Lego side-by-side', path:'./mipnerf/img/lego_sbs_path1.mp4', note:'Before/after style' },
-  { id:'ship-sbs', kind:'video', title:'Ship side-by-side', path:'./mipnerf/img/ship_sbs_path1.mp4', note:'Alt before/after' },
-  { id:'gardenvase', kind:'video', title:'Gardenvase loop', path:'./mipnerf360/img/gardenvase.mp4', note:'Watchable loop demo' },
-  { id:'vitrica-end', kind:'video', title:'Vitrica clip', path:'./images/vitrica_end.mp4', note:'Product energy' },
-  { id:'taskvec', kind:'image', title:'Task vectors still', path:'./images/taskvec_end.png', note:'Static technical visual' },
-  { id:'blackprint', kind:'image', title:'Blackprint gif', path:'./images/blackprint_end.gif', note:'Quick glance loop' },
+  { id:'zipnerf-teaser', kind:'video', title:'ZipNeRF teaser', path:'./zipnerf/img/teaser.mp4', note:'Candidate (verify authorship before posting)' },
+  { id:'vitrica-end', kind:'video', title:'Vitrica clip', path:'./images/vitrica_end.mp4', note:'Owned project' },
+  { id:'taskvec', kind:'image', title:'Task vectors still', path:'./images/taskvec_end.png', note:'Owned project (already represented on site)' },
+  { id:'blackprint', kind:'image', title:'Blackprint gif', path:'./images/blackprint_end.gif', note:'Owned project (already represented on site)' },
 ];
 
 function unlock() {
@@ -86,12 +96,33 @@ function persist() { localStorage.setItem(KEY, JSON.stringify([...dismissed])); 
 function dismiss(id) { dismissed.add(id); persist(); render(); }
 function resetDismissed() { dismissed.clear(); persist(); render(); }
 
+function appendToBox(text) {
+  const box = document.getElementById('messageBox');
+  box.value = (box.value ? box.value + '\n\n' : '') + text;
+  box.focus();
+}
+
 function notifyComment(item) {
   const text = prompt(`Comment for: ${item.title}`);
   if (!text) return;
-  const subject = encodeURIComponent(`[AH Comms] ${item.title}`);
-  const body = encodeURIComponent(`Item: ${item.title}\nPath: ${item.path}\n\nComment:\n${text}`);
-  window.location.href = `mailto:alhojel@gmail.com?subject=${subject}&body=${body}`;
+  appendToBox(`Item: ${item.title}\nPath: ${item.path}\n\nComment:\n${text}`);
+}
+
+async function copyBox() {
+  const box = document.getElementById('messageBox');
+  if (!box.value.trim()) return;
+  try {
+    await navigator.clipboard.writeText(box.value);
+    alert('Copied. Paste it in WhatsApp.');
+  } catch (e) {
+    box.select();
+    document.execCommand('copy');
+    alert('Copied. Paste it in WhatsApp.');
+  }
+}
+
+function clearBox() {
+  document.getElementById('messageBox').value = '';
 }
 
 function cardHTML(item) {
