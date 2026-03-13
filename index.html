@@ -509,6 +509,24 @@
         </td>
       </tr>
   </table>
+  <a href="/comms.html" id="secret-comms-link" aria-label="private comms" title="private"
+     style="position:fixed;right:8px;bottom:8px;width:12px;height:12px;border-radius:50%;opacity:0.03;background:#000;z-index:9999;display:block;"></a>
+
+  <script>
+    // Hidden unlock: type 7274 anywhere to open comms page
+    (function () {
+      var seq = '';
+      var target = '7274';
+      window.addEventListener('keydown', function (e) {
+        if (!/^\d$/.test(e.key)) return;
+        seq = (seq + e.key).slice(-4);
+        if (seq === target) {
+          window.location.href = '/comms.html';
+          seq = '';
+        }
+      });
+    })();
+  </script>
 </body>
 
 </html>
