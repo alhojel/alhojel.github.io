@@ -129,3 +129,81 @@ name {
 span.highlight {
   background-color: #ffffd0;
 }
+
+/* --- NGE-inspired: minimal, clean sci-fi (soft neon accents) --- */
+:root {
+  --bg: #0f1219;
+  --bg-soft: #151a24;
+  --panel: rgba(21, 26, 36, 0.72);
+  --text: #e8ecf6;
+  --text-muted: #bac2d8;
+  --line: rgba(159, 173, 216, 0.22);
+  --accent-violet: #8a7dff;
+  --accent-cyan: #68d3ff;
+  --accent-amber: #ffb86c;
+}
+
+body {
+  color: var(--text);
+  background:
+    radial-gradient(900px 500px at 100% -10%, rgba(138, 125, 255, 0.15), transparent 55%),
+    radial-gradient(700px 420px at -5% 105%, rgba(104, 211, 255, 0.1), transparent 60%),
+    var(--bg);
+}
+
+a {
+  color: #9db6ff;
+}
+
+a:focus,
+a:hover {
+  color: var(--accent-amber);
+}
+
+p,
+td,
+th,
+tr {
+  color: var(--text-muted);
+}
+
+name,
+heading,
+papertitle,
+strong {
+  color: var(--text);
+}
+
+/* Main content card */
+body > table {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 12px 50px rgba(0, 0, 0, 0.28);
+}
+
+/* Keep highlight rows, but make them subtle neon-stroked instead of yellow blocks */
+tr[bgcolor="#ffffd0"] {
+  background: linear-gradient(
+    90deg,
+    rgba(138, 125, 255, 0.08) 0%,
+    rgba(104, 211, 255, 0.06) 100%
+  ) !important;
+}
+
+tr[bgcolor="#ffffd0"] td:first-child {
+  border-left: 2px solid var(--accent-violet);
+}
+
+tr:hover td {
+  background-color: rgba(255, 255, 255, 0.015);
+}
+
+span.highlight {
+  background: rgba(255, 184, 108, 0.18);
+  border: 1px solid rgba(255, 184, 108, 0.3);
+  border-radius: 4px;
+  padding: 0 4px;
+}
