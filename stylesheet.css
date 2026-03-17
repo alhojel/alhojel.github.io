@@ -1,11 +1,12 @@
-/* Gwern-adjacent monochrome editorial remake */
+/* Reference-driven remake: archival typewritten paper aesthetic */
 :root {
-  --bg: #e4e4e4;
-  --ink: #121212;
+  --paper: #d9d9d7;
+  --paper-shadow: #c8c8c6;
+  --ink: #131313;
   --muted: #2f2f2f;
-  --rule: #8e8e8e;
-  --card: rgba(240, 240, 240, 0.76);
-  --highlight: rgba(20, 20, 20, 0.08);
+  --rule: #5a5a5a;
+  --line: rgba(0, 0, 0, 0.22);
+  --highlight: rgba(0, 0, 0, 0.07);
 }
 
 * { box-sizing: border-box; }
@@ -21,86 +22,107 @@ th,
 tr,
 p,
 a,
-li {
-  font-family: "Helvetica Neue", "Inter", Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.6;
+li,
+strong,
+papertitle,
+heading,
+name {
+  font-family: "Courier Prime", "Courier New", Courier, monospace;
+  font-size: 18px;
+  line-height: 1.52;
+  letter-spacing: 0.01em;
   color: var(--muted);
 }
 
 body {
   color: var(--ink);
   background:
-    radial-gradient(circle at 20% 12%, rgba(255, 255, 255, 0.35) 0%, transparent 45%),
-    radial-gradient(circle at 80% 5%, rgba(0, 0, 0, 0.05) 0%, transparent 38%),
-    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.016) 0, rgba(0, 0, 0, 0.016) 1px, transparent 1px, transparent 3px),
-    var(--bg);
+    radial-gradient(circle at 15% 12%, rgba(255, 255, 255, 0.35) 0%, transparent 45%),
+    radial-gradient(circle at 80% 8%, rgba(0, 0, 0, 0.06) 0%, transparent 40%),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.02) 0px, rgba(0, 0, 0, 0.02) 1px, transparent 1px, transparent 3px),
+    var(--paper);
 }
 
 a {
   color: var(--ink);
   text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
+  text-underline-offset: 3px;
+}
+
+a:hover,
+a:focus {
+  background: rgba(0, 0, 0, 0.08);
 }
 
 name {
   display: inline-block;
-  font-size: 30px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-weight: 600;
+  font-size: 34px;
   color: var(--ink);
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  font-weight: 700;
 }
 
 heading {
   display: block;
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  font-weight: 600;
   color: var(--ink);
-  margin-bottom: 8px;
+  font-size: 31px;
+  font-weight: 700;
+  text-transform: lowercase;
+  margin: 0;
 }
 
-papertitle,
-strong {
-  color: var(--ink);
+heading::before {
+  content: "* ";
 }
 
+heading::after {
+  content: "\A------------------------------------------------";
+  white-space: pre;
+  display: block;
+  font-size: 0.9em;
+  line-height: 1.2;
+  color: var(--rule);
+  margin-top: 2px;
+}
+
+strong,
 papertitle {
-  font-size: 14px;
-  letter-spacing: 0.02em;
-  font-weight: 600;
+  color: var(--ink);
+  font-size: 1em;
+  font-weight: 700;
 }
 
 body > table {
-  margin: 24px auto 40px !important;
-  max-width: 940px !important;
-  border: 1px solid var(--rule);
-  background: var(--card);
-  backdrop-filter: blur(1px);
+  margin: 20px auto 36px !important;
+  max-width: 980px !important;
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.2), transparent 40%),
+    var(--paper);
+  box-shadow: 0 3px 0 var(--paper-shadow), 0 18px 45px rgba(0, 0, 0, 0.12);
 }
 
 body > table > tbody > tr > td {
-  padding: 6px 18px 24px !important;
+  padding: 12px 22px 28px !important;
 }
 
 table {
   border-collapse: collapse !important;
 }
 
-tr[bgcolor="#ffffd0"] {
-  background: var(--highlight) !important;
-}
-
 tr {
-  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  border-top: 1px dashed var(--line);
 }
 
 tr:first-child,
 table:first-child tr:first-child {
   border-top: 0;
+}
+
+tr[bgcolor="#ffffd0"] {
+  background: var(--highlight) !important;
 }
 
 .one,
@@ -109,25 +131,25 @@ table:first-child tr:first-child {
   height: 160px;
 }
 
-.two {
-  position: absolute;
-  transition: opacity .2s ease-in-out;
-}
-
 .one {
   position: relative;
-  filter: grayscale(100%) contrast(1.08);
+  filter: grayscale(100%) contrast(1.06);
+}
+
+.two {
+  position: absolute;
+  transition: opacity .18s ease-in-out;
 }
 
 img {
   max-width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.35);
-  filter: grayscale(100%) contrast(1.06);
+  filter: grayscale(100%) contrast(1.08);
 }
 
 span.highlight {
-  background: rgba(0, 0, 0, 0.12);
-  padding: 0 3px;
+  background: rgba(0, 0, 0, 0.11);
+  padding: 0 4px;
 }
 
 ul {
@@ -135,10 +157,32 @@ ul {
 }
 
 #secret-comms-link {
-  opacity: 0.08 !important;
+  opacity: 0.06 !important;
 }
 
 @media (max-width: 840px) {
+  body,
+  td,
+  th,
+  tr,
+  p,
+  a,
+  li,
+  strong,
+  papertitle,
+  heading,
+  name {
+    font-size: 16px;
+  }
+
+  heading {
+    font-size: 27px;
+  }
+
+  name {
+    font-size: 29px;
+  }
+
   body > table {
     margin: 0 !important;
     border-left: 0;
