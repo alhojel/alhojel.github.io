@@ -1,77 +1,18 @@
-/* latin-ext */
-@font-face {
-  font-family: 'Lato';
-  font-style: italic;
-  font-weight: 400;
-  src: local('Lato Italic'), local('Lato-Italic'), url(https://fonts.gstatic.com/s/lato/v15/S6u8w4BMUTPHjxsAUi-qNiXg7eU0.woff2) format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Lato';
-  font-style: italic;
-  font-weight: 400;
-  src: local('Lato Italic'), local('Lato-Italic'), url(https://fonts.gstatic.com/s/lato/v15/S6u8w4BMUTPHjxsAXC-qNiXg7Q.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Lato';
-  font-style: italic;
-  font-weight: 700;
-  src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(https://fonts.gstatic.com/s/lato/v15/S6u_w4BMUTPHjxsI5wq_FQftx9897sxZ.woff2) format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Lato';
-  font-style: italic;
-  font-weight: 700;
-  src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(https://fonts.gstatic.com/s/lato/v15/S6u_w4BMUTPHjxsI5wq_Gwftx9897g.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v15/S6uyw4BMUTPHjxAwXiWtFCfQ7A.woff2) format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v15/S6uyw4BMUTPHjx4wXiWtFCc.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 700;
-  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v15/S6u9w4BMUTPHh6UVSwaPGQ3q5d0N7w.woff2) format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 700;
-  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v15/S6u9w4BMUTPHh6UVSwiPGQ3q5d0.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+/* Gwern-adjacent monochrome editorial remake */
+:root {
+  --bg: #e4e4e4;
+  --ink: #121212;
+  --muted: #2f2f2f;
+  --rule: #8e8e8e;
+  --card: rgba(240, 240, 240, 0.76);
+  --highlight: rgba(20, 20, 20, 0.08);
 }
 
-a {
-  color: #1772d0;
-  text-decoration: none;
-}
+* { box-sizing: border-box; }
 
-a:focus,
-a:hover {
-  color: #f09228;
-  text-decoration: none;
+html, body {
+  margin: 0;
+  padding: 0;
 }
 
 body,
@@ -79,131 +20,132 @@ td,
 th,
 tr,
 p,
-a {
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 14px
-}
-
-strong {
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
+a,
+li {
+  font-family: "Helvetica Neue", "Inter", Arial, sans-serif;
   font-size: 14px;
-}
-
-heading {
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 22px;
-}
-
-papertitle {
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 14px;
-  font-weight: 700
-}
-
-name {
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 32px;
-}
-
-.one {
-  width: 160px;
-  height: 160px;
-  position: relative;
-}
-
-.two {
-  width: 160px;
-  height: 160px;
-  position: absolute;
-  transition: opacity .2s ease-in-out;
-  -moz-transition: opacity .2s ease-in-out;
-  -webkit-transition: opacity .2s ease-in-out;
-}
-
-.fade {
-  transition: opacity .2s ease-in-out;
-  -moz-transition: opacity .2s ease-in-out;
-  -webkit-transition: opacity .2s ease-in-out;
-}
-
-span.highlight {
-  background-color: #ffffd0;
-}
-
-/* --- NGE-inspired: minimal, clean sci-fi (soft neon accents) --- */
-:root {
-  --bg: #0f1219;
-  --bg-soft: #151a24;
-  --panel: rgba(21, 26, 36, 0.72);
-  --text: #e8ecf6;
-  --text-muted: #bac2d8;
-  --line: rgba(159, 173, 216, 0.22);
-  --accent-violet: #8a7dff;
-  --accent-cyan: #68d3ff;
-  --accent-amber: #ffb86c;
+  line-height: 1.6;
+  color: var(--muted);
 }
 
 body {
-  color: var(--text);
+  color: var(--ink);
   background:
-    radial-gradient(900px 500px at 100% -10%, rgba(138, 125, 255, 0.15), transparent 55%),
-    radial-gradient(700px 420px at -5% 105%, rgba(104, 211, 255, 0.1), transparent 60%),
+    radial-gradient(circle at 20% 12%, rgba(255, 255, 255, 0.35) 0%, transparent 45%),
+    radial-gradient(circle at 80% 5%, rgba(0, 0, 0, 0.05) 0%, transparent 38%),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.016) 0, rgba(0, 0, 0, 0.016) 1px, transparent 1px, transparent 3px),
     var(--bg);
 }
 
 a {
-  color: #9db6ff;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
 }
 
-a:focus,
-a:hover {
-  color: var(--accent-amber);
+name {
+  display: inline-block;
+  font-size: 30px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--ink);
 }
 
-p,
-td,
-th,
-tr {
-  color: var(--text-muted);
+heading {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
 }
 
-name,
-heading,
 papertitle,
 strong {
-  color: var(--text);
+  color: var(--ink);
 }
 
-/* Main content card */
+papertitle {
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  font-weight: 600;
+}
+
 body > table {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  box-shadow: 0 12px 50px rgba(0, 0, 0, 0.28);
+  margin: 24px auto 40px !important;
+  max-width: 940px !important;
+  border: 1px solid var(--rule);
+  background: var(--card);
+  backdrop-filter: blur(1px);
 }
 
-/* Keep highlight rows, but make them subtle neon-stroked instead of yellow blocks */
+body > table > tbody > tr > td {
+  padding: 6px 18px 24px !important;
+}
+
+table {
+  border-collapse: collapse !important;
+}
+
 tr[bgcolor="#ffffd0"] {
-  background: linear-gradient(
-    90deg,
-    rgba(138, 125, 255, 0.08) 0%,
-    rgba(104, 211, 255, 0.06) 100%
-  ) !important;
+  background: var(--highlight) !important;
 }
 
-tr[bgcolor="#ffffd0"] td:first-child {
-  border-left: 2px solid var(--accent-violet);
+tr {
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-tr:hover td {
-  background-color: rgba(255, 255, 255, 0.015);
+tr:first-child,
+table:first-child tr:first-child {
+  border-top: 0;
+}
+
+.one,
+.two {
+  width: 160px;
+  height: 160px;
+}
+
+.two {
+  position: absolute;
+  transition: opacity .2s ease-in-out;
+}
+
+.one {
+  position: relative;
+  filter: grayscale(100%) contrast(1.08);
+}
+
+img {
+  max-width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  filter: grayscale(100%) contrast(1.06);
 }
 
 span.highlight {
-  background: rgba(255, 184, 108, 0.18);
-  border: 1px solid rgba(255, 184, 108, 0.3);
-  border-radius: 4px;
-  padding: 0 4px;
+  background: rgba(0, 0, 0, 0.12);
+  padding: 0 3px;
+}
+
+ul {
+  margin-top: 0.2rem;
+}
+
+#secret-comms-link {
+  opacity: 0.08 !important;
+}
+
+@media (max-width: 840px) {
+  body > table {
+    margin: 0 !important;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  td[style*="width:40%"] {
+    display: none;
+  }
 }
