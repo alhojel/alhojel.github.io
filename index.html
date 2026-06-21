@@ -49,11 +49,6 @@
                     <a href="https://linkedin.com/in/albertohojel">LinkedIn</a> &nbsp/&nbsp
                     <a href="https://github.com/alhojel">GitHub</a>
                   </p>
-                  <p style="text-align:center; line-height:1.7; border:1px solid #b2b2b2; border-radius:2px; padding:10px 12px; text-transform:uppercase; letter-spacing:0.08em; font-size:11px;">
-                    Draft numbered mockup routes have been retired from navigation. This page is now the canonical public profile.
-                    <br>
-                    Design references: <a href="https://gwern.net">Gwern</a>, <a href="https://depue.design">Will DePue</a>, <a href="https://jasoncarman.com">Jason Carman</a>, <a href="https://karpathy.ai">Andrej Karpathy</a>.
-                  </p>
                 </td>
                 <td style="padding:2.5%;width:40%;max-width:40%">
                   <a href="images/AlbertoHojel.jpg"><img style="width:100%;max-width:100%" alt="profile photo"
@@ -66,26 +61,6 @@
             Representative experiences are <span
               class="highlight">highlighted</span>.
           </p>
-
-          <table width="100%" align="center" border="0" cellspacing="0" cellpadding="20">
-            <tbody>
-              <tr>
-                <td>
-                  <heading>Now (validated timeline anchors)</heading>
-                  <p>
-                    I removed an incorrectly-curated media block and switched to validated anchors only.
-                    Current source of truth for this section is my own profile timeline:
-                  </p>
-                  <ul>
-                    <li><a href="https://x.com/AlbyHojel/status/2027527470535348372">for the dreamers out there</a> (Roblox Tech Talks roadmap)</li>
-                    <li><a href="https://x.com/AlbyHojel/status/2019233731102535697">We are making a thing!</a></li>
-                    <li><a href="https://x.com/AlbyHojel/status/2010927656921940192">I joined Roblox just before the holidays</a></li>
-                  </ul>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
           <table width="100%" align="center" border="0" cellspacing="0" cellpadding="20">
             <tbody>
               <tr>
@@ -112,7 +87,7 @@
                       document.getElementById('taskvec_image').style.opacity = "1";
                     }
 
-                    function taskvec_stop() {
+                    function adversarial_stop() {
                       document.getElementById('taskvec_image').style.opacity = "0";
                     }
                     taskvec_stop()
@@ -301,47 +276,6 @@
           <table
             style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
             <tbody>
-              <tr bgcolor="#ffffd0">
-                <td style="padding:20px;width:25%;vertical-align:middle">
-                  <div class="one" style="width:160px;height:90px;display:flex;align-items:center;justify-content:center;background:rgba(138,125,255,0.10);border:1px solid rgba(138,125,255,0.35);border-radius:8px;font-size:32px;">
-                    🎮
-                  </div>
-                </td>
-                <td style="padding:20px;width:75%;vertical-align:middle">
-                  <a href="https://www.roblox.com/">
-                    <papertitle>Roblox</papertitle>
-                  </a>
-                  <br>
-                  <strong>Software Engineer Intern (Incoming)</strong>, 2025
-                  <br>
-                  <a href="https://x.com/AlbyHojel/status/2010927656921940192">announcement</a>
-                  /
-                  <a href="https://x.com/AlbyHojel/status/2027527470535348372">tech talks roadmap</a>
-                  <p></p>
-                  <p>
-                    Building at Roblox, with a focus on learning from high-scale product and infrastructure systems while sharpening product intuition through shipping.
-                  </p>
-                </td>
-              </tr>
-
-              <tr bgcolor="#ffffd0">
-                <td style="padding:20px;width:25%;vertical-align:middle">
-                  <div class="one" style="width:160px;height:90px;display:flex;align-items:center;justify-content:center;background:rgba(104,211,255,0.10);border:1px solid rgba(104,211,255,0.35);border-radius:8px;font-size:30px;">
-                    🧠
-                  </div>
-                </td>
-                <td style="padding:20px;width:75%;vertical-align:middle">
-                  <papertitle>Lucid</papertitle>
-                  <br>
-                  <strong>Founder / Builder</strong>
-                  <br>
-                  <p></p>
-                  <p>
-                    Working on world-model-driven product ideas and rapid prototypes, with emphasis on clear explanations, fast iteration, and practical deployment.
-                  </p>
-                </td>
-              </tr>
-
               <tr onmouseout="briefly_stop()" onmouseover="briefly_start()">
                 <td style="padding:20px;width:25%;vertical-align:middle">
                   <div class="one">
@@ -555,24 +489,6 @@
         </td>
       </tr>
   </table>
-  <a href="/comms.html" id="secret-comms-link" aria-label="private comms" title="private"
-     style="position:fixed;right:8px;bottom:8px;width:12px;height:12px;border-radius:50%;opacity:0.03;background:#000;z-index:9999;display:block;"></a>
-
-  <script>
-    // Hidden unlock: type 7274 anywhere to open comms page
-    (function () {
-      var seq = '';
-      var target = '7274';
-      window.addEventListener('keydown', function (e) {
-        if (!/^\d$/.test(e.key)) return;
-        seq = (seq + e.key).slice(-4);
-        if (seq === target) {
-          window.location.href = '/comms.html';
-          seq = '';
-        }
-      });
-    })();
-  </script>
 </body>
 
 </html>
