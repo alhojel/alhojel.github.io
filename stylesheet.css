@@ -1,11 +1,11 @@
 :root {
   color-scheme: light;
-  --paper: #f7f5ef;
+  --paper: #fbfaf7;
   --ink: #1b1916;
   --muted: #6b665e;
   --line: #dedad0;
-  --orange: #e45016;
-  --link: #ad3813;
+  --orange: #ca4511;
+  --link: var(--orange);
   --page-width: 760px;
 }
 
@@ -28,7 +28,7 @@ body {
 }
 
 ::selection {
-  background: #f6c7ae;
+  background: #f7d5c3;
 }
 
 .page {
@@ -61,7 +61,8 @@ a {
 }
 
 a:hover {
-  color: #e04a12;
+  color: var(--orange);
+  text-decoration-thickness: 2px;
 }
 
 a:focus-visible {
