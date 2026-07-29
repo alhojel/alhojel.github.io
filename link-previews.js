@@ -9,7 +9,6 @@ const FALLOFF_SOFTENING = 58
 const MIN_PREVIEW_WIDTH = 128
 const MAX_PREVIEW_WIDTH = 280
 const MIN_USABLE_WRAP_COLUMN = 120
-const MIN_WRAP_COLUMN = 170
 const PREVIEW_ACTIVATION_STRENGTH = 0.14
 const PREVIEW_RELEASE_STRENGTH = 0.08
 const VIDEO_START_STRENGTH = 0.76
@@ -23,6 +22,8 @@ let focusedLink = null
 let preview = null
 let previewBreak = null
 let previewTail = null
+let previewPunctuation = null
+let previewTrailingText = null
 let poster = null
 let player = null
 let flowNode = null
@@ -176,9 +177,24 @@ function findNearestLink() {
 }
 
 function distanceToLink(link, x, y) {
-  const linkDistance = distanceToRect(link.getBoundingClientRect(), x, y)
+  const linkDistance = Math.min(...linkRects(link).map(rect => distanceToRect(rect, x, y)))
   if (link !== activeLink || preview === null) return linkDistance
   return Math.min(linkDistance, distanceToRect(preview.getBoundingClientRect(), x, y))
+}
+
+function linkRects(link) {
+  const rects = Array.from(link.getClientRects())
+  return rects.length > 0 ? rects : [link.getBoundingClientRect()]
+}
+
+function anchorRectForLink(link) {
+  const rects = linkRects(link)
+  if (!pointer.active) return rects[0]
+  return rects.reduce((nearest, rect) => (
+    distanceToRect(rect, pointer.x, pointer.y) < distanceToRect(nearest, pointer.x, pointer.y)
+      ? rect
+      : nearest
+  ))
 }
 
 function distanceToRect(rect, x, y) {
@@ -205,7 +221,7 @@ function switchActiveLink(nextLink) {
     return
   }
 
-  const linkRect = activeLink.getBoundingClientRect()
+  const linkRect = anchorRectForLink(activeLink)
   anchorPoint = {
     x: (linkRect.left + linkRect.right) / 2,
     documentY: (linkRect.top + linkRect.bottom) / 2 + window.scrollY,
@@ -228,12 +244,23 @@ function switchActiveLink(nextLink) {
   poster.decoding = 'async'
   preview.appendChild(poster)
 
+  let tailStart = activeLink.nextSibling
+  if (tailStart instanceof Text) {
+    const punctuation = tailStart.data.match(/^[,.;:!?]+/)?.[0]
+    if (punctuation) {
+      previewTrailingText = { node: tailStart, text: tailStart.data }
+      tailStart.data = tailStart.data.slice(punctuation.length)
+      previewPunctuation = document.createTextNode(punctuation)
+      parent.insertBefore(previewPunctuation, tailStart)
+    }
+  }
+
   const trailingNodes = []
-  for (let node = activeLink.nextSibling; node !== null; node = node.nextSibling) {
+  for (let node = tailStart; node !== null; node = node.nextSibling) {
     trailingNodes.push(node)
   }
 
-  parent.insertBefore(previewBreak, activeLink.nextSibling)
+  parent.insertBefore(previewBreak, tailStart)
   parent.insertBefore(previewTail, previewBreak.nextSibling)
   previewTail.appendChild(preview)
   for (const node of trailingNodes) previewTail.appendChild(node)
@@ -257,9 +284,13 @@ function unmountPreview() {
     previewTail.remove()
   }
   if (previewBreak !== null) previewBreak.remove()
+  if (previewTrailingText !== null) previewTrailingText.node.data = previewTrailingText.text
+  if (previewPunctuation !== null) previewPunctuation.remove()
   preview = null
   previewBreak = null
   previewTail = null
+  previewPunctuation = null
+  previewTrailingText = null
   poster = null
   flowNode = null
   flowBaseWidth = 0
@@ -283,10 +314,7 @@ function updatePreview(value) {
   const anchorLeft = flowRect === null
     ? 0
     : anchorViewportX - flowRect.left
-  const viewportSpace = Math.max(
-    80,
-    window.innerWidth - 16 - anchorViewportX - MIN_WRAP_COLUMN - 14,
-  )
+  const viewportSpace = Math.max(80, window.innerWidth - 16 - anchorViewportX)
   const maxWidth = Math.max(
     80,
     Math.min(MAX_PREVIEW_WIDTH, viewportSpace, Math.max(MIN_PREVIEW_WIDTH, availableWidth * 0.48)),
@@ -304,14 +332,11 @@ function updatePreview(value) {
   const maxFlowWidth = flowRect === null
     ? availableWidth
     : window.innerWidth - 16 - flowRect.left
-  const canWrapBeside = maxFlowWidth - Math.max(0, anchorLeft) - width - sideGap >= MIN_USABLE_WRAP_COLUMN
-  const requiredFlowWidth = canWrapBeside
-    ? Math.max(availableWidth, Math.max(0, anchorLeft) + width + sideGap + MIN_WRAP_COLUMN)
-    : availableWidth
-  const targetFlowWidth = Math.min(requiredFlowWidth, maxFlowWidth)
-  const effectiveSideGap = canWrapBeside
-    ? sideGap
-    : Math.max(0, targetFlowWidth - Math.max(0, anchorLeft) - width)
+  const pinnedAnchorLeft = Math.max(0, anchorLeft)
+  const canWrapBeside = pinnedAnchorLeft - sideGap >= MIN_USABLE_WRAP_COLUMN
+  const targetFlowWidth = canWrapBeside
+    ? Math.min(pinnedAnchorLeft + width, maxFlowWidth)
+    : Math.min(availableWidth, maxFlowWidth)
 
   if (previewTail instanceof HTMLElement) {
     previewTail.style.width = `${targetFlowWidth.toFixed(2)}px`
@@ -319,8 +344,9 @@ function updatePreview(value) {
 
   preview.style.width = `${width.toFixed(2)}px`
   preview.style.height = `${height.toFixed(2)}px`
-  preview.style.marginLeft = `${Math.max(0, anchorLeft).toFixed(2)}px`
-  preview.style.marginRight = `${effectiveSideGap.toFixed(2)}px`
+  preview.style.float = canWrapBeside ? 'right' : 'none'
+  preview.style.marginLeft = `${(canWrapBeside ? sideGap : pinnedAnchorLeft).toFixed(2)}px`
+  preview.style.marginRight = '0px'
   preview.style.marginTop = `${topGap.toFixed(2)}px`
   preview.style.marginBottom = `${bottomGap.toFixed(2)}px`
   preview.style.borderWidth = width > 6 ? '1px' : '0'
