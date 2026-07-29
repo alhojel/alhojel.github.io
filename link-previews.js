@@ -7,6 +7,8 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
 const INFLUENCE_RADIUS = 220
 const FALLOFF_SOFTENING = 58
 const MAX_PREVIEW_WIDTH = 280
+const PREVIEW_ACTIVATION_STRENGTH = 0.14
+const PREVIEW_RELEASE_STRENGTH = 0.08
 const VIDEO_START_STRENGTH = 0.76
 const VIDEO_STOP_STRENGTH = 0.42
 
@@ -107,18 +109,26 @@ function scheduleFrame() {
 function renderFrame() {
   scheduledFrame = null
 
-  const candidate = finePointer.matches
+  const nearestLink = finePointer.matches
     ? focusedLink || (pointer.active ? findNearestLink() : null)
     : null
-  const candidateStrength = focusedLink !== null && finePointer.matches
+  const nearestStrength = focusedLink !== null && finePointer.matches
     ? 1
-    : candidate === null
+    : nearestLink === null
       ? 0
-      : inverseSquareStrength(distanceToLink(candidate, pointer.x, pointer.y))
+      : inverseSquareStrength(distanceToLink(nearestLink, pointer.x, pointer.y))
+  const activationThreshold = nearestLink === activeLink
+    ? PREVIEW_RELEASE_STRENGTH
+    : PREVIEW_ACTIVATION_STRENGTH
+  const candidate = nearestStrength >= activationThreshold ? nearestLink : null
+  const candidateStrength = candidate === null ? 0 : nearestStrength
 
   if (candidate !== activeLink) {
+    const wasInactive = activeLink === null
     switchActiveLink(candidate)
-    strength = Math.min(strength, 0.18)
+    strength = wasInactive && candidate !== null
+      ? candidateStrength
+      : Math.min(strength, 0.18)
   }
 
   targetStrength = candidateStrength
@@ -211,45 +221,51 @@ function updatePreview(value) {
   const maxWidth = Math.min(MAX_PREVIEW_WIDTH, Math.max(150, availableWidth * 0.48))
   const width = maxWidth * eased
   const height = width * 9 / 16
-  const sideGap = width > 5 ? 4 + 10 * eased : 0
+  const topGap = width > 5 ? 3 + 5 * eased : 0
   const bottomGap = width > 5 ? 3 + 7 * eased : 0
   const visible = clamp(value * 2.4, 0, 1)
+  const flowRect = flowNode instanceof HTMLElement ? flowNode.getBoundingClientRect() : null
+  const linkRect = activeLink.getBoundingClientRect()
+  const linkCenter = flowRect === null
+    ? availableWidth / 2
+    : (linkRect.left + linkRect.right) / 2 - flowRect.left
+  const viewportPadding = 16
+  const minLeft = flowRect === null ? 0 : viewportPadding - flowRect.left
+  const maxLeft = flowRect === null
+    ? Math.max(0, availableWidth - width)
+    : window.innerWidth - viewportPadding - flowRect.left - width
+  const left = clamp(linkCenter - width / 2, minLeft, Math.max(minLeft, maxLeft))
 
   preview.style.width = `${width.toFixed(2)}px`
   preview.style.height = `${height.toFixed(2)}px`
-  preview.style.marginLeft = `${sideGap.toFixed(2)}px`
+  preview.style.marginLeft = `${left.toFixed(2)}px`
+  preview.style.marginTop = `${topGap.toFixed(2)}px`
   preview.style.marginBottom = `${bottomGap.toFixed(2)}px`
   preview.style.borderWidth = width > 6 ? '1px' : '0'
   preview.style.borderColor = `rgba(202, 69, 17, ${(0.18 + value * 0.64).toFixed(3)})`
   preview.style.opacity = visible.toFixed(3)
 
-  updateFlowHeight(width, height, sideGap, bottomGap)
+  updateFlowHeight(height, topGap, bottomGap)
   updateVideo(value)
 }
 
-function updateFlowHeight(width, height, sideGap, bottomGap) {
+function updateFlowHeight(height, topGap, bottomGap) {
   if (!(flowNode instanceof HTMLParagraphElement) || activeLink === null) return
   const flowState = flowStates.get(flowNode)
   if (flowState === null || flowState === undefined) return
 
-  const nodeRect = flowNode.getBoundingClientRect()
-  const linkRect = activeLink.getBoundingClientRect()
-  const obstacleTop = Math.max(0, linkRect.top - nodeRect.top)
-  const obstacleBottom = obstacleTop + height + bottomGap
   const fullWidth = Math.max(1, flowNode.clientWidth)
-  const narrowWidth = Math.max(54, fullWidth - width - sideGap)
   let cursor = { segmentIndex: 0, graphemeIndex: 0 }
   let lineTop = 0
 
   for (let guard = 0; guard < 200; guard++) {
-    const intersects = lineTop + flowState.lineHeight > obstacleTop && lineTop < obstacleBottom
-    const range = layoutNextLineRange(flowState.prepared, cursor, intersects ? narrowWidth : fullWidth)
+    const range = layoutNextLineRange(flowState.prepared, cursor, fullWidth)
     if (range === null) break
     cursor = range.end
     lineTop += flowState.lineHeight
   }
 
-  flowNode.style.minHeight = `${Math.ceil(Math.max(lineTop, obstacleBottom))}px`
+  flowNode.style.minHeight = `${Math.ceil(lineTop + height + topGap + bottomGap)}px`
 }
 
 function updateVideo(value) {
