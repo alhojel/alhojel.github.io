@@ -220,7 +220,7 @@ h2 span {
   box-shadow: 0 7px 20px rgba(27, 25, 22, 0.08);
   opacity: 0;
   pointer-events: none;
-  transform-origin: left top;
+  transform-origin: center;
   will-change: left, top, width, height, opacity;
 }
 

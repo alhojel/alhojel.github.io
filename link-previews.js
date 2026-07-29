@@ -213,8 +213,8 @@ function updatePreview(value) {
   const targetWidth = Math.min(MAX_PREVIEW_WIDTH, responsiveWidth, window.innerWidth - 32)
   const width = targetWidth * eased
   const height = width * 9 / 16
-  const left = clamp(anchorX, 16, Math.max(16, window.innerWidth - width - 16))
-  const top = clamp(anchorY, 16, Math.max(16, window.innerHeight - height - 16))
+  const left = clamp(anchorX - width / 2, 16, Math.max(16, window.innerWidth - width - 16))
+  const top = clamp(anchorY - height / 2, 16, Math.max(16, window.innerHeight - height - 16))
   const visible = clamp(value * 2.4, 0, 1)
 
   preview.style.left = `${left.toFixed(2)}px`
