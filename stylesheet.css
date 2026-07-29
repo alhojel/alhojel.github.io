@@ -172,7 +172,6 @@ h2 span {
 }
 
 .about-entry p {
-  display: flow-root;
   margin-bottom: 0;
 }
 
@@ -189,7 +188,6 @@ h2 span {
 }
 
 .plain-list li {
-  display: flow-root;
   margin-bottom: 16px;
 }
 
@@ -209,8 +207,8 @@ h2 span {
 }
 
 .proximity-preview {
-  position: relative;
-  float: right;
+  position: fixed;
+  z-index: 20;
   display: block;
   width: 0;
   height: 0;
@@ -223,21 +221,7 @@ h2 span {
   opacity: 0;
   pointer-events: none;
   transform-origin: left top;
-  will-change: width, height, opacity;
-}
-
-.proximity-preview-tail {
-  display: flow-root;
-  width: 100%;
-  margin: 0;
-  color: inherit;
-  font-size: inherit;
-}
-
-.plain-list .proximity-preview-tail {
-  margin: 0;
-  color: inherit;
-  font-size: inherit;
+  will-change: left, top, width, height, opacity;
 }
 
 .proximity-preview img,
