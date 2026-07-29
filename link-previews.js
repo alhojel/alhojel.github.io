@@ -6,7 +6,10 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
 
 const INFLUENCE_RADIUS = 220
 const FALLOFF_SOFTENING = 58
+const MIN_PREVIEW_WIDTH = 128
 const MAX_PREVIEW_WIDTH = 280
+const MIN_USABLE_WRAP_COLUMN = 120
+const MIN_WRAP_COLUMN = 170
 const PREVIEW_ACTIVATION_STRENGTH = 0.14
 const PREVIEW_RELEASE_STRENGTH = 0.08
 const VIDEO_START_STRENGTH = 0.76
@@ -18,9 +21,13 @@ const flowStates = new Map()
 let activeLink = null
 let focusedLink = null
 let preview = null
+let previewBreak = null
+let previewTail = null
 let poster = null
 let player = null
 let flowNode = null
+let flowBaseWidth = 0
+let anchorPoint = null
 let strength = 0
 let targetStrength = 0
 let scheduledFrame = null
@@ -52,6 +59,12 @@ function bindEvents() {
 
   window.addEventListener('scroll', scheduleFrame, { passive: true })
   window.addEventListener('resize', () => {
+    if (activeLink !== null) {
+      strength = 0
+      targetStrength = 0
+      unmountPreview()
+    }
+    pointer.active = false
     prepareFlowStates()
     scheduleFrame()
   })
@@ -153,7 +166,7 @@ function findNearestLink() {
   for (const link of previewLinks) {
     const rect = link.getBoundingClientRect()
     if (rect.bottom < -INFLUENCE_RADIUS || rect.top > window.innerHeight + INFLUENCE_RADIUS) continue
-    const distance = distanceToRect(rect, pointer.x, pointer.y)
+    const distance = distanceToLink(link, pointer.x, pointer.y)
     if (distance >= nearestDistance) continue
     nearest = link
     nearestDistance = distance
@@ -163,7 +176,9 @@ function findNearestLink() {
 }
 
 function distanceToLink(link, x, y) {
-  return distanceToRect(link.getBoundingClientRect(), x, y)
+  const linkDistance = distanceToRect(link.getBoundingClientRect(), x, y)
+  if (link !== activeLink || preview === null) return linkDistance
+  return Math.min(linkDistance, distanceToRect(preview.getBoundingClientRect(), x, y))
 }
 
 function distanceToRect(rect, x, y) {
@@ -184,9 +199,28 @@ function switchActiveLink(nextLink) {
   activeLink = nextLink
   if (activeLink === null) return
 
+  const parent = activeLink.parentNode
+  if (parent === null) {
+    activeLink = null
+    return
+  }
+
+  const linkRect = activeLink.getBoundingClientRect()
+  anchorPoint = {
+    x: (linkRect.left + linkRect.right) / 2,
+    documentY: (linkRect.top + linkRect.bottom) / 2 + window.scrollY,
+  }
+  flowNode = activeLink.closest('p, li')
+
   preview = document.createElement('span')
   preview.className = 'proximity-preview'
   preview.setAttribute('aria-hidden', 'true')
+
+  previewBreak = document.createElement('br')
+  previewBreak.className = 'proximity-preview-break'
+
+  previewTail = document.createElement('span')
+  previewTail.className = 'proximity-preview-tail'
 
   poster = document.createElement('img')
   poster.src = activeLink.dataset.previewSrc || ''
@@ -194,66 +228,120 @@ function switchActiveLink(nextLink) {
   poster.decoding = 'async'
   preview.appendChild(poster)
 
-  if (activeLink.parentNode === null) {
-    unmountPreview()
-    return
+  const trailingNodes = []
+  for (let node = activeLink.nextSibling; node !== null; node = node.nextSibling) {
+    trailingNodes.push(node)
   }
 
-  activeLink.parentNode.insertBefore(preview, activeLink.nextSibling)
+  parent.insertBefore(previewBreak, activeLink.nextSibling)
+  parent.insertBefore(previewTail, previewBreak.nextSibling)
+  previewTail.appendChild(preview)
+  for (const node of trailingNodes) previewTail.appendChild(node)
+
+  flowBaseWidth = flowNode instanceof HTMLElement ? flowNode.clientWidth : 0
   activeLink.classList.add('is-preview-source')
-  flowNode = activeLink.closest('p, li')
 }
 
 function unmountPreview() {
   stopVideo()
   if (activeLink !== null) activeLink.classList.remove('is-preview-source')
-  if (flowNode instanceof HTMLElement) flowNode.style.minHeight = ''
+  if (flowNode instanceof HTMLElement) {
+    flowNode.style.minHeight = ''
+  }
   if (preview !== null) preview.remove()
+  if (previewTail !== null && previewTail.parentNode !== null) {
+    const parent = previewTail.parentNode
+    while (previewTail.firstChild !== null) {
+      parent.insertBefore(previewTail.firstChild, previewTail)
+    }
+    previewTail.remove()
+  }
+  if (previewBreak !== null) previewBreak.remove()
   preview = null
+  previewBreak = null
+  previewTail = null
   poster = null
   flowNode = null
+  flowBaseWidth = 0
+  anchorPoint = null
   activeLink = null
 }
 
 function updatePreview(value) {
   const eased = 1 - (1 - clamp(value, 0, 1)) ** 1.35
-  const availableWidth = flowNode instanceof HTMLElement ? flowNode.clientWidth : MAX_PREVIEW_WIDTH * 2
-  const maxWidth = Math.min(MAX_PREVIEW_WIDTH, Math.max(150, availableWidth * 0.48))
+  const availableWidth = flowBaseWidth || (flowNode instanceof HTMLElement ? flowNode.clientWidth : MAX_PREVIEW_WIDTH * 2)
+  const flowRect = previewTail instanceof HTMLElement
+    ? previewTail.getBoundingClientRect()
+    : flowNode instanceof HTMLElement
+      ? flowNode.getBoundingClientRect()
+      : null
+  const linkRect = activeLink.getBoundingClientRect()
+  const anchorViewportX = anchorPoint?.x ?? (linkRect.left + linkRect.right) / 2
+  const anchorViewportY = anchorPoint?.documentY === undefined
+    ? (linkRect.top + linkRect.bottom) / 2
+    : anchorPoint.documentY - window.scrollY
+  const anchorLeft = flowRect === null
+    ? 0
+    : anchorViewportX - flowRect.left
+  const viewportSpace = Math.max(
+    80,
+    window.innerWidth - 16 - anchorViewportX - MIN_WRAP_COLUMN - 14,
+  )
+  const maxWidth = Math.max(
+    80,
+    Math.min(MAX_PREVIEW_WIDTH, viewportSpace, Math.max(MIN_PREVIEW_WIDTH, availableWidth * 0.48)),
+  )
   const width = maxWidth * eased
   const height = width * 9 / 16
-  const topGap = width > 5 ? 3 + 5 * eased : 0
+  const sideGap = width > 5 ? 4 + 10 * eased : 0
   const bottomGap = width > 5 ? 3 + 7 * eased : 0
   const visible = clamp(value * 2.4, 0, 1)
-  const flowRect = flowNode instanceof HTMLElement ? flowNode.getBoundingClientRect() : null
-  const linkRect = activeLink.getBoundingClientRect()
-  const linkCenter = flowRect === null
-    ? availableWidth / 2
-    : (linkRect.left + linkRect.right) / 2 - flowRect.left
-  const viewportPadding = 16
-  const minLeft = flowRect === null ? 0 : viewportPadding - flowRect.left
-  const maxLeft = flowRect === null
-    ? Math.max(0, availableWidth - width)
-    : window.innerWidth - viewportPadding - flowRect.left - width
-  const left = clamp(linkCenter - width / 2, minLeft, Math.max(minLeft, maxLeft))
+  const previewRect = preview.getBoundingClientRect()
+  const currentTopMargin = Number.parseFloat(preview.style.marginTop || '0') || 0
+  const topGap = width > 5
+    ? currentTopMargin + anchorViewportY - previewRect.top
+    : 0
+  const maxFlowWidth = flowRect === null
+    ? availableWidth
+    : window.innerWidth - 16 - flowRect.left
+  const canWrapBeside = maxFlowWidth - Math.max(0, anchorLeft) - width - sideGap >= MIN_USABLE_WRAP_COLUMN
+  const requiredFlowWidth = canWrapBeside
+    ? Math.max(availableWidth, Math.max(0, anchorLeft) + width + sideGap + MIN_WRAP_COLUMN)
+    : availableWidth
+  const targetFlowWidth = Math.min(requiredFlowWidth, maxFlowWidth)
+  const effectiveSideGap = canWrapBeside
+    ? sideGap
+    : Math.max(0, targetFlowWidth - Math.max(0, anchorLeft) - width)
+
+  if (previewTail instanceof HTMLElement) {
+    previewTail.style.width = `${targetFlowWidth.toFixed(2)}px`
+  }
 
   preview.style.width = `${width.toFixed(2)}px`
   preview.style.height = `${height.toFixed(2)}px`
-  preview.style.marginLeft = `${left.toFixed(2)}px`
+  preview.style.marginLeft = `${Math.max(0, anchorLeft).toFixed(2)}px`
+  preview.style.marginRight = `${effectiveSideGap.toFixed(2)}px`
   preview.style.marginTop = `${topGap.toFixed(2)}px`
   preview.style.marginBottom = `${bottomGap.toFixed(2)}px`
   preview.style.borderWidth = width > 6 ? '1px' : '0'
   preview.style.borderColor = `rgba(202, 69, 17, ${(0.18 + value * 0.64).toFixed(3)})`
   preview.style.opacity = visible.toFixed(3)
 
-  updateFlowHeight(height, topGap, bottomGap)
+  updateFlowHeight(height, bottomGap)
   updateVideo(value)
 }
 
-function updateFlowHeight(height, topGap, bottomGap) {
+function updateFlowHeight(height, bottomGap) {
   if (!(flowNode instanceof HTMLParagraphElement) || activeLink === null) return
   const flowState = flowStates.get(flowNode)
   if (flowState === null || flowState === undefined) return
 
+  const nodeRect = flowNode.getBoundingClientRect()
+  const anchorViewportY = anchorPoint?.documentY === undefined
+    ? (activeLink.getBoundingClientRect().top + activeLink.getBoundingClientRect().bottom) / 2
+    : anchorPoint.documentY - window.scrollY
+  const obstacleTop = Math.max(0, anchorViewportY - nodeRect.top)
+  const obstacleBottom = obstacleTop + height + bottomGap
   const fullWidth = Math.max(1, flowNode.clientWidth)
   let cursor = { segmentIndex: 0, graphemeIndex: 0 }
   let lineTop = 0
@@ -265,7 +353,7 @@ function updateFlowHeight(height, topGap, bottomGap) {
     lineTop += flowState.lineHeight
   }
 
-  flowNode.style.minHeight = `${Math.ceil(lineTop + height + topGap + bottomGap)}px`
+  flowNode.style.minHeight = `${Math.ceil(Math.max(lineTop, obstacleBottom))}px`
 }
 
 function updateVideo(value) {

@@ -76,6 +76,8 @@ a[data-preview-kind] {
 }
 
 a[data-preview-kind].is-preview-source {
+  z-index: 1;
+  background: var(--paper);
   text-decoration-thickness: 2px;
 }
 
@@ -208,6 +210,7 @@ h2 span {
 
 .proximity-preview {
   position: relative;
+  float: left;
   display: block;
   width: 0;
   height: 0;
@@ -219,8 +222,22 @@ h2 span {
   box-shadow: 0 7px 20px rgba(27, 25, 22, 0.08);
   opacity: 0;
   pointer-events: none;
-  transform-origin: center top;
-  will-change: width, height, opacity, margin-left;
+  transform-origin: left top;
+  will-change: width, height, opacity;
+}
+
+.proximity-preview-tail {
+  display: flow-root;
+  width: 100%;
+  margin: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+.plain-list .proximity-preview-tail {
+  margin: 0;
+  color: inherit;
+  font-size: inherit;
 }
 
 .proximity-preview img,
