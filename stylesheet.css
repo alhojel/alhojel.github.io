@@ -14,7 +14,6 @@
 }
 
 html {
-  overflow-anchor: none;
   scroll-behavior: smooth;
 }
 
@@ -69,16 +68,6 @@ a:hover {
 a:focus-visible {
   outline: 2px solid var(--link);
   outline-offset: 3px;
-}
-
-a[data-preview-kind] {
-  position: relative;
-}
-
-a[data-preview-kind].is-preview-source {
-  z-index: 1;
-  background: var(--paper);
-  text-decoration-thickness: 2px;
 }
 
 .intro {
@@ -206,49 +195,6 @@ h2 span {
   font-size: 0.92rem;
 }
 
-.proximity-preview {
-  position: fixed;
-  z-index: 20;
-  display: block;
-  width: 0;
-  height: 0;
-  margin: 0;
-  overflow: hidden;
-  border: 0 solid rgba(202, 69, 17, 0);
-  border-radius: 3px;
-  background: #f0ede6;
-  box-shadow: 0 7px 20px rgba(27, 25, 22, 0.08);
-  opacity: 0;
-  pointer-events: none;
-  transform-origin: center;
-  will-change: left, top, width, height, opacity;
-}
-
-.proximity-preview img,
-.proximity-preview iframe {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-.proximity-preview img {
-  background: #f0ede6;
-  object-fit: contain;
-}
-
-.proximity-preview iframe {
-  background: #000000;
-  opacity: 0;
-  transition: opacity 160ms ease;
-}
-
-.proximity-preview iframe.is-ready {
-  opacity: 1;
-}
-
 .video-list {
   display: grid;
   gap: 40px;
@@ -316,18 +262,8 @@ footer {
   }
 }
 
-@media (any-hover: none) {
-  .proximity-preview {
-    display: none;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-
-  .proximity-preview iframe {
-    transition: none;
   }
 }
