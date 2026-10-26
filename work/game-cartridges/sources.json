@@ -1,0 +1,144 @@
+{
+  "source": "https://x.com/AlbyHojel/status/2057193508822536459",
+  "title": "In Search for the World Model Harness for Gaming",
+  "articleVideos": [
+    {
+      "poster": "https://pbs.twimg.com/amplify_video_thumb/2057174414786232320/img/9Af5mLCJVCpz6vH2.jpg",
+      "type": "VIDEO",
+      "url": "https://video.twimg.com/amplify_video/2057174414786232320/vid/avc1/1694x1480/w0r0nFRTift0Iu0H.mp4?tag=27",
+      "file": "media/gameplay.mp4",
+      "posterFile": "media/gameplay.jpg"
+    },
+    {
+      "poster": "https://pbs.twimg.com/amplify_video_thumb/2057175026391269376/img/uxQXx88sFvaJF7ZW.jpg",
+      "type": "VIDEO",
+      "url": "https://video.twimg.com/amplify_video/2057175026391269376/vid/avc1/1664x960/nAiv5NCpw4gvNlmf.mp4?tag=27",
+      "file": "media/world-transitions.mp4",
+      "posterFile": "media/world-transitions.jpg"
+    },
+    {
+      "poster": "https://pbs.twimg.com/amplify_video_thumb/2057175185774784512/img/mLihHOT39Auwmxpv.jpg",
+      "type": "VIDEO",
+      "url": "https://video.twimg.com/amplify_video/2057175185774784512/vid/avc1/1664x960/T4jZS9nu9zh3ZPD1.mp4?tag=27",
+      "file": "media/tools.mp4",
+      "posterFile": "media/tools.jpg"
+    },
+    {
+      "poster": "https://pbs.twimg.com/amplify_video_thumb/2057176023599652864/img/uZuJu6q6OzjICXTv.jpg",
+      "type": "VIDEO",
+      "url": "https://video.twimg.com/amplify_video/2057176023599652864/vid/avc1/1280x720/K-8dtFC_t9OF9Mvw.mp4?tag=27",
+      "file": "media/worlds-research-station.mp4",
+      "posterFile": "media/worlds-research-station.jpg"
+    }
+  ],
+  "replies": [
+    {
+      "id": "2057200850796507330",
+      "text": "Video world models can generate some pretty amazing scenes…",
+      "quotedText": null,
+      "quotedUrl": null,
+      "videos": [
+        {
+          "url": "https://video.twimg.com/amplify_video/2057200663084556288/vid/avc1/1694x1480/8nFSj75T1_j4Y_dy.mp4?tag=27",
+          "thumbnail_url": "https://pbs.twimg.com/amplify_video_thumb/2057200663084556288/img/fWAchrRBsVmwNwU-.jpg",
+          "width": 1694,
+          "height": 1480,
+          "duration": 54.875
+        }
+      ],
+      "source": "https://x.com/AlbyHojel/status/2057200850796507330",
+      "file": "media/scenes.mp4",
+      "posterFile": "media/scenes.jpg"
+    },
+    {
+      "id": "2057368020981559311",
+      "text": "Still some work to do …",
+      "quotedText": "One of the common problems is drift (noise accumulation), watch the moose’s back…",
+      "quotedUrl": "https://x.com/AlbyHojel/status/2057366145360097512",
+      "videos": [
+        {
+          "url": "https://video.twimg.com/amplify_video/2057366063030177792/vid/avc1/1664x960/zdQRWlArwFQY_uVk.mp4?tag=27",
+          "thumbnail_url": "https://pbs.twimg.com/amplify_video_thumb/2057366063030177792/img/v82DEtLf7qINBBLk.jpg",
+          "width": 1664,
+          "height": 960,
+          "duration": 53.951
+        }
+      ],
+      "source": "https://x.com/AlbyHojel/status/2057368020981559311",
+      "file": "media/drift.mp4",
+      "posterFile": "media/drift.jpg"
+    },
+    {
+      "id": "2057367593116467260",
+      "text": "A simple game mechanic loop: collect 3 energy cells before your health bar runs out, then find the portal and proceed to the next level. Spectators get to vote on which world you’re sent to next…",
+      "quotedText": "We gave a code harness to a video world model, and built a game you can play on Roblox…",
+      "quotedUrl": "https://x.com/AlbyHojel/status/2057262246049599653",
+      "videos": [
+        {
+          "url": "https://video.twimg.com/amplify_video/2057262142840254465/vid/avc1/1280x720/lLXp1vEajwpFkxgi.mp4?tag=27",
+          "thumbnail_url": "https://pbs.twimg.com/amplify_video_thumb/2057262142840254465/img/ogCP5ipnEpK-wWlw.jpg",
+          "width": 1280,
+          "height": 720,
+          "duration": 54.52
+        }
+      ],
+      "source": "https://x.com/AlbyHojel/status/2057367593116467260",
+      "file": "media/game-loop.mp4",
+      "posterFile": "media/game-loop.jpg"
+    },
+    {
+      "id": "2057367050369245574",
+      "text": "Flexible enough to cleanly morph between worlds",
+      "quotedText": "How flexible are video world models? We show they can cleanly interpolate between different environments by switching between 7 prompts. Starting with a frog in a bustling NYC avenue, we can transform into a firefighter in a warehouse, a camel caravan, riding a dragon, to a 1st-person porch in the countryside, to a backpacker in the Himalayas, to a diver underwater, and finally back to almost the same bustling NYC avenue.",
+      "quotedUrl": "https://x.com/AlbyHojel/status/2057240299848835552",
+      "videos": [
+        {
+          "url": "https://video.twimg.com/amplify_video/2057239830317387776/vid/avc1/1664x960/x2OgbzJ6YQW_FEBZ.mp4?tag=27",
+          "thumbnail_url": "https://pbs.twimg.com/amplify_video_thumb/2057239830317387776/img/Blgd3RhoXw5eSBW3.jpg",
+          "width": 1664,
+          "height": 960,
+          "duration": 148.428
+        }
+      ],
+      "source": "https://x.com/AlbyHojel/status/2057367050369245574",
+      "file": "media/morphing.mp4",
+      "posterFile": "media/morphing.jpg"
+    },
+    {
+      "id": "2057366763881496583",
+      "text": "Equipping/unequipping items and manipulating the environment with those tools",
+      "quotedText": "Switching from a scythe to a rifle to a flaming torch, and interacting with the environment. There's an uncanny intelligence deep insides these models, and we're researching how to make games with it!",
+      "quotedUrl": "https://x.com/AlbyHojel/status/2057239137745567960",
+      "videos": [
+        {
+          "url": "https://video.twimg.com/amplify_video/2057238692780253184/vid/avc1/1664x960/zrm9HZdfbwoo4c0Q.mp4?tag=27",
+          "thumbnail_url": "https://pbs.twimg.com/amplify_video_thumb/2057238692780253184/img/83lLYaiWDYLGV8F8.jpg",
+          "width": 1664,
+          "height": 960,
+          "duration": 35.321
+        }
+      ],
+      "source": "https://x.com/AlbyHojel/status/2057366763881496583",
+      "file": "media/equipment.mp4",
+      "posterFile": "media/equipment.jpg"
+    },
+    {
+      "id": "2057367169567264886",
+      "text": "Realistic NPC behavior",
+      "quotedText": "It’s even pretty good at simulating other skiers in the scene…",
+      "quotedUrl": "https://x.com/AlbyHojel/status/2057254515561353353",
+      "videos": [
+        {
+          "url": "https://video.twimg.com/amplify_video/2057254443360673793/vid/avc1/1664x960/qttxrG-VRqSc9BtQ.mp4?tag=27",
+          "thumbnail_url": "https://pbs.twimg.com/amplify_video_thumb/2057254443360673793/img/ju4sJsLK1Vp8Dgy6.jpg",
+          "width": 1664,
+          "height": 960,
+          "duration": 20.556
+        }
+      ],
+      "source": "https://x.com/AlbyHojel/status/2057367169567264886",
+      "file": "media/skiers.mp4",
+      "posterFile": "media/skiers.jpg"
+    }
+  ]
+}

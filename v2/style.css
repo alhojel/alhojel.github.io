@@ -88,7 +88,9 @@ figcaption p { color: var(--muted); margin: 0; }
 .research-row { padding: 19px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 28px; }
 .research-row h3 { font-size: 18px; line-height: 1.4; font-weight: 400; margin: 0 0 3px; }
 .research-row p { color: var(--muted); font-size: 14px; margin: 0 0 9px; line-height: 1.5; }
-.research-links { display: flex; flex-wrap: wrap; gap: 6px 19px; font: 12px/1.6 Arial, Helvetica, sans-serif; }
+.research-links { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 19px; font: 12px/1.6 Arial, Helvetica, sans-serif; }
+.research-links .social-link { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; text-decoration: none; }
+.social-link svg { flex: none; }
 .research-row:target h3 { color: var(--orange); }
 footer { display: flex; justify-content: space-between; gap: 20px; font-size: 11px; padding-top: 20px; }
 
