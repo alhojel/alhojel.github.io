@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="description" content="Alberto Hojel works on real-time video generation and world models at Roblox.">
-  <meta name="theme-color" content="#fbfaf7">
+  <meta name="theme-color" content="#fdfdfc">
   <meta property="og:type" content="website">
   <link rel="canonical" href="https://albertohojel.com/">
   <meta property="og:url" content="https://albertohojel.com/">
@@ -19,12 +20,13 @@
   <meta name="twitter:description" content="Real-time video generation for gaming.">
   <meta name="twitter:image" content="https://albertohojel.com/images/og.png">
   <title>Alberto Hojel</title>
+  <script src="v2/script.js" defer></script>
   <link rel="icon" href="images/AlbertoHojel1.jpg">
   <link rel="preconnect" href="https://www.youtube-nocookie.com">
-  <link rel="stylesheet" href="stylesheet.css">
+  <link rel="stylesheet" href="v2/style.css">
 </head>
 
-<body>
+<body class="home">
   <a class="skip-link" href="#content">Skip to content</a>
 
   <main class="page" id="content">
@@ -61,7 +63,7 @@
 
         <article class="about-entry">
           <img class="org-icon" src="images/org/berkeley.png" alt="" width="64" height="64">
-          <p><strong>August 2021 &ndash; December 2024</strong> &mdash; I was a Computer Science undergraduate at UC Berkeley. Advised by Amir Bar and Trevor Darrell, we wrote a paper analyzing the in-context learning abilities of vision transformers: <a href="https://arxiv.org/abs/2404.05729" target="_blank" rel="noreferrer">arXiv</a>, <a href="https://github.com/alhojel/visual_task_vectors" target="_blank" rel="noreferrer">GitHub</a>, <a href="https://eccv.ecva.net/virtual/2024/poster/1487" target="_blank" rel="noreferrer">ECCV 2024</a>, and <a href="https://openreview.net/forum?id=XZ6dLwEZtq" target="_blank" rel="noreferrer">ICML 2024 MI Workshop poster</a>.</p>
+          <p><strong>August 2021 &ndash; December 2024</strong> &mdash; I was a Computer Science undergraduate at UC Berkeley. Advised by Amir Bar and Trevor Darrell, we wrote a paper analyzing the in-context learning abilities of vision transformers. <span class="citations"><sup><a id="cite-1" href="#visual-task-vectors" aria-label="Finding Visual Task Vectors: paper, code, and posters">1</a></sup></span></p>
         </article>
 
         <article class="about-entry">
@@ -71,56 +73,86 @@
       </div>
     </section>
 
+
     <section id="writing" aria-labelledby="writing-heading">
       <h2 id="writing-heading"><span aria-hidden="true">#</span>Writing</h2>
-      <ul class="plain-list">
-        <li>
-          <a href="https://x.com/AlbyHojel/status/2057193508822536459" target="_blank" rel="noreferrer">Game Cartridges</a>
-          <span>Roblox&rsquo;s World Model coupled with a code harness</span>
-        </li>
-        <li>
-          <a href="https://substack.com/home/post/p-149753302" target="_blank" rel="noreferrer">My journey to ECCV</a>
-        </li>
-      </ul>
+      <div class="writing-list">
+        <a class="writing-row" href="https://substack.com/home/post/p-149753302" target="_blank" rel="noreferrer">
+          <div><h3>My journey to ECCV</h3><p>Notes on the road to a research conference.</p></div>
+          <span class="publication">Substack <span aria-hidden="true">&nearr;</span></span>
+        </a>
+      </div>
     </section>
-
     <section id="videos" aria-labelledby="videos-heading">
       <h2 id="videos-heading"><span aria-hidden="true">#</span>Videos</h2>
-
-      <div class="video-list">
-        <article class="video-item">
-          <h3><a href="https://www.youtube.com/watch?v=8Djgx0jEyfs&amp;t=2s" target="_blank" rel="noreferrer">Roblox Tech Podcast</a></h3>
-          <div class="video-embed">
-            <iframe src="https://www.youtube-nocookie.com/embed/8Djgx0jEyfs?start=2" title="Roblox Tech Podcast" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      <nav class="video-tabs" aria-label="Videos">
+        <a id="tab-roblox" href="#video-roblox">Roblox</a>
+        <a id="tab-lucid" href="#video-lucid">Lucid</a>
+        <a id="tab-research" href="#video-research">Research</a>
+        <a id="tab-tanzania" href="#video-tanzania">Nature</a>
+      </nav>
+      <figure class="video-panel" id="video-roblox" aria-labelledby="tab-roblox">
+        <div class="player" data-video="8Djgx0jEyfs">
+          <a class="play" href="https://www.youtube.com/watch?v=8Djgx0jEyfs" target="_blank" rel="noopener noreferrer" aria-label="Play Roblox Tech Podcast">
+            <img src="https://i.ytimg.com/vi/8Djgx0jEyfs/maxresdefault.jpg" alt="" width="1280" height="720">
+            <span class="play-icon" aria-hidden="true"></span>
+          </a>
+        </div>
+        <figcaption><span class="media-kind">World models / Conversation</span><div class="caption-title"><h3>Roblox Tech Podcast</h3><a href="https://www.youtube.com/watch?v=8Djgx0jEyfs" target="_blank" rel="noreferrer" aria-label="Watch Roblox Tech Podcast on YouTube">YouTube &nearr;</a></div><p>A conversation about real-time video generation and Roblox Reality.</p></figcaption>
+      </figure>
+      <figure class="video-panel" id="video-research" aria-labelledby="tab-research">
+        <div class="player" data-video="aZRmtBnROyk">
+          <a class="play" href="https://www.youtube.com/watch?v=aZRmtBnROyk" target="_blank" rel="noopener noreferrer" aria-label="Play Finding Visual Task Vectors">
+            <img src="https://i.ytimg.com/vi/aZRmtBnROyk/maxresdefault.jpg" alt="" width="1280" height="720" loading="lazy">
+            <span class="play-icon" aria-hidden="true"></span>
+          </a>
+        </div>
+        <figcaption><span class="media-kind">Vision / Research</span><div class="caption-title"><h3>Finding Visual Task Vectors</h3><a href="https://www.youtube.com/watch?v=aZRmtBnROyk" target="_blank" rel="noreferrer" aria-label="Watch Finding Visual Task Vectors on YouTube">YouTube &nearr;</a></div><p>Our work on in-context learning in vision transformers.</p></figcaption>
+      </figure>
+      <figure class="video-panel" id="video-lucid" aria-labelledby="tab-lucid">
+        <div class="player" data-video="fnoyvrGOwIA">
+          <a class="play" href="https://www.youtube.com/watch?v=fnoyvrGOwIA" target="_blank" rel="noopener noreferrer" aria-label="Play Lucid launch video">
+            <img src="https://i.ytimg.com/vi/fnoyvrGOwIA/maxresdefault.jpg" alt="" width="1280" height="720" loading="lazy">
+            <span class="play-icon" aria-hidden="true"></span>
+          </a>
+        </div>
+        <figcaption><span class="media-kind">World models / Demo</span><div class="caption-title"><h3>Lucid launch video</h3><a href="https://www.youtube.com/watch?v=fnoyvrGOwIA" target="_blank" rel="noreferrer" aria-label="Watch Lucid launch video on YouTube">YouTube &nearr;</a></div><p>Generative simulations powered by fast world models.</p></figcaption>
+      </figure>
+      <figure class="video-panel" id="video-tanzania" aria-labelledby="tab-tanzania">
+        <div class="player" data-video="g7naIYFvJUI">
+          <a class="play" href="https://www.youtube.com/watch?v=g7naIYFvJUI" target="_blank" rel="noopener noreferrer" aria-label="Play Tanzania from Above">
+            <img src="https://i.ytimg.com/vi/g7naIYFvJUI/mqdefault.jpg" alt="" width="320" height="180" loading="lazy">
+            <span class="play-icon" aria-hidden="true"></span>
+          </a>
+        </div>
+        <figcaption><span class="media-kind">Film / Aerial</span><div class="caption-title"><h3>Tanzania from Above</h3><a href="https://www.youtube.com/watch?v=g7naIYFvJUI" target="_blank" rel="noreferrer" aria-label="Watch Tanzania from Above on YouTube">YouTube &nearr;</a></div><p>Tanzania, seen from above.</p></figcaption>
+      </figure>
+    </section>
+    <section id="references" aria-labelledby="references-heading">
+      <h2 id="references-heading"><span aria-hidden="true">#</span>Research</h2>
+      <div class="research-list">
+        <article class="research-row">
+          <h3>Game Cartridges</h3>
+          <p>Roblox's world model coupled with a code harness.</p>
+          <div class="research-links" aria-label="Game Cartridges links">
+            <a href="https://x.com/DavidBaszucki/status/2057868268288049414?s=20" target="_blank" rel="noreferrer">David's repost</a>
+            <a href="https://x.com/AlbyHojel/status/2057193508822536459" target="_blank" rel="noreferrer">Post</a>
+            <a href="https://about.roblox.com/newsroom/2026/04/roblox-reality-hybrid-architecture-democratizing-photorealistic-multiplayer-gaming" target="_blank" rel="noreferrer">Roblox Reality</a>
           </div>
         </article>
-
-        <article class="video-item">
-          <h3><a href="https://www.youtube.com/watch?v=aZRmtBnROyk" target="_blank" rel="noreferrer">Finding Visual Task Vectors</a></h3>
-          <div class="video-embed">
-            <iframe src="https://www.youtube-nocookie.com/embed/aZRmtBnROyk" title="Finding Visual Task Vectors" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-          </div>
-        </article>
-
-        <article class="video-item">
-          <h3><a href="https://www.youtube.com/watch?v=fnoyvrGOwIA" target="_blank" rel="noreferrer">Lucid launch video</a></h3>
-          <div class="video-embed">
-            <iframe src="https://www.youtube-nocookie.com/embed/fnoyvrGOwIA" title="Lucid launch video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-          </div>
-        </article>
-
-        <article class="video-item">
-          <h3><a href="https://www.youtube.com/watch?v=g7naIYFvJUI" target="_blank" rel="noreferrer">Tanzania from Above</a></h3>
-          <div class="video-embed">
-            <iframe src="https://www.youtube-nocookie.com/embed/g7naIYFvJUI" title="Tanzania from Above" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <article class="research-row" id="visual-task-vectors">
+          <h3>Finding Visual Task Vectors</h3>
+          <p>In-context learning in vision transformers.</p>
+          <div class="research-links" aria-label="Finding Visual Task Vectors links">
+            <a href="https://arxiv.org/abs/2404.05729" target="_blank" rel="noreferrer">Paper</a>
+            <a href="https://github.com/alhojel/visual_task_vectors" target="_blank" rel="noreferrer">Code</a>
+            <a href="https://eccv.ecva.net/virtual/2024/poster/1487" target="_blank" rel="noreferrer">ECCV 2024</a>
+            <a href="https://openreview.net/forum?id=XZ6dLwEZtq" target="_blank" rel="noreferrer">ICML workshop</a>
           </div>
         </article>
       </div>
     </section>
-
-    <footer>
-      <a href="mailto:alhojel@gmail.com">alhojel@gmail.com</a>
-    </footer>
+    <footer><a href="mailto:alhojel@gmail.com">alhojel@gmail.com</a></footer>
   </main>
 </body>
 </html>
